@@ -1780,6 +1780,7 @@
       "$ref": "#/$defs/VcsConfig",
       "default": {
         "order": [
+          "jj",
           "git",
           "hg",
           "pijul",
@@ -1789,6 +1790,7 @@
         "fossil_modules": "$fossil_branch$fossil_metrics",
         "git_modules": "$git_branch$git_commit$git_state$git_metrics$git_status",
         "hg_modules": "$hg_branch$hg_state",
+        "jj_modules": "",
         "pijul_modules": "$pijul_channel"
       }
     },
@@ -6698,6 +6700,7 @@
             "type": "string"
           },
           "default": [
+            "jj",
             "git",
             "hg",
             "pijul",
@@ -6723,6 +6726,11 @@
           "description": "Modules to use when Mercurial is matched.\n\nThey are configured separately at the top level.",
           "type": "string",
           "default": "$hg_branch$hg_state"
+        },
+        "jj_modules": {
+          "description": "Modules to use when Jujutsu is matched.\n\nThey are configured separately at the top level.",
+          "type": "string",
+          "default": ""
         },
         "pijul_modules": {
           "description": "Modules to use when Pijul is matched.\n\nThey are configured separately at the top level.",

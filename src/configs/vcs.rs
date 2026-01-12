@@ -36,6 +36,11 @@ pub struct VcsConfig<'a> {
     ///
     /// They are configured separately at the top level.
     pub hg_modules: &'a str, // NOTE: uses `hg` to correspond to existing `hg_branch` module
+    /// Modules to use when Jujutsu is matched.
+    ///
+    /// They are configured separately at the top level.
+    #[cfg(feature = "jj")]
+    pub jj_modules: &'a str,
     /// Modules to use when Pijul is matched.
     ///
     /// They are configured separately at the top level.
@@ -45,11 +50,20 @@ pub struct VcsConfig<'a> {
 impl Default for VcsConfig<'_> {
     fn default() -> Self {
         VcsConfig {
-            order: vec!["git", "hg", "pijul", "fossil"],
+            order: vec![
+                #[cfg(feature = "jj")]
+                "jj",
+                "git",
+                "hg",
+                "pijul",
+                "fossil",
+            ],
             disabled: false,
             fossil_modules: "$fossil_branch$fossil_metrics",
             git_modules: "$git_branch$git_commit$git_state$git_metrics$git_status",
             hg_modules: "$hg_branch$hg_state",
+            #[cfg(feature = "jj")]
+            jj_modules: "",
             pijul_modules: "$pijul_channel",
         }
     }

@@ -25,6 +25,8 @@ use std::time::{Duration, Instant};
 use terminal_size::terminal_size;
 
 pub mod git;
+#[cfg(feature = "jj")]
+pub mod jj;
 
 /// Context contains data or common methods that may be used by multiple modules.
 /// The data contained within Context will be relevant to this particular rendering
@@ -49,6 +51,10 @@ pub struct Context<'a> {
 
     /// Private field to store Git information for modules who need it
     git_repo: OnceLock<Result<git::Repo, Box<gix::discover::Error>>>,
+
+    /// Private field to store JJ information for modules who need it
+    #[cfg(feature = "jj")]
+    jj_repo: OnceLock<Option<jj::Repo>>,
 
     /// The shell the user is assumed to be running
     pub shell: Shell,
@@ -166,6 +172,8 @@ impl<'a> Context<'a> {
             logical_dir,
             dir_contents: OnceLock::new(),
             git_repo: OnceLock::new(),
+            #[cfg(feature = "jj")]
+            jj_repo: OnceLock::new(),
             shell,
             target,
             width,
@@ -311,6 +319,14 @@ impl<'a> Context<'a> {
             .get_or_init(|| git::init_repo(&self.current_dir))
             .as_ref()
             .map_err(AsRef::as_ref)
+    }
+
+    /// Will lazily get repository when a module requests it.
+    #[cfg(feature = "jj")]
+    pub fn get_jj_repo(&self) -> Option<&jj::Repo> {
+        self.jj_repo
+            .get_or_init(|| jj::init_repo(&self.current_dir))
+            .as_ref()
     }
 
     pub fn dir_contents(&self) -> Result<&DirContents, &std::io::Error> {
