@@ -55,6 +55,8 @@ pub mod hostname;
 pub mod java;
 #[cfg(feature = "jj")]
 pub mod jj_metrics;
+#[cfg(feature = "jj")]
+pub mod jj_operation;
 pub mod jobs;
 pub mod julia;
 pub mod kotlin;
@@ -232,6 +234,9 @@ pub struct FullConfig<'a> {
     #[serde(borrow)]
     #[cfg(feature = "jj")]
     jj_metrics: jj_metrics::JJMetricsConfig<'a>,
+    #[serde(borrow)]
+    #[cfg(feature = "jj")]
+    jj_operation: jj_operation::JJOperationConfig<'a>,
     #[serde(borrow)]
     jobs: jobs::JobsConfig<'a>,
     #[serde(borrow)]
