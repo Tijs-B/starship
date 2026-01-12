@@ -50,6 +50,8 @@ pub mod hg_branch;
 pub mod hg_state;
 pub mod hostname;
 pub mod java;
+#[cfg(feature = "jj")]
+pub mod jj_metrics;
 pub mod jobs;
 pub mod julia;
 pub mod kotlin;
@@ -218,6 +220,9 @@ pub struct FullConfig<'a> {
     hostname: hostname::HostnameConfig<'a>,
     #[serde(borrow)]
     java: java::JavaConfig<'a>,
+    #[serde(borrow)]
+    #[cfg(feature = "jj")]
+    jj_metrics: jj_metrics::JJMetricsConfig<'a>,
     #[serde(borrow)]
     jobs: jobs::JobsConfig<'a>,
     #[serde(borrow)]

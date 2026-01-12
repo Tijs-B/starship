@@ -894,6 +894,15 @@
         "detect_folders": []
       }
     },
+    "jj_metrics": {
+      "$ref": "#/$defs/JJMetricsConfig",
+      "default": {
+        "added_style": "bold green",
+        "deleted_style": "bold red",
+        "only_nonzero_diffs": true,
+        "format": "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+      }
+    },
     "jobs": {
       "$ref": "#/$defs/JobsConfig",
       "default": {
@@ -1790,7 +1799,7 @@
         "fossil_modules": "$fossil_branch$fossil_metrics",
         "git_modules": "$git_branch$git_commit$git_state$git_metrics$git_status",
         "hg_modules": "$hg_branch$hg_state",
-        "jj_modules": "",
+        "jj_modules": "$jj_metrics",
         "pijul_modules": "$pijul_channel"
       }
     },
@@ -4223,6 +4232,28 @@
             "type": "string"
           },
           "default": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "JJMetricsConfig": {
+      "type": "object",
+      "properties": {
+        "added_style": {
+          "type": "string",
+          "default": "bold green"
+        },
+        "deleted_style": {
+          "type": "string",
+          "default": "bold red"
+        },
+        "only_nonzero_diffs": {
+          "type": "boolean",
+          "default": true
+        },
+        "format": {
+          "type": "string",
+          "default": "([+$added]($added_style) )([-$deleted]($deleted_style) )"
         }
       },
       "additionalProperties": false
@@ -6730,7 +6761,7 @@
         "jj_modules": {
           "description": "Modules to use when Jujutsu is matched.\n\nThey are configured separately at the top level.",
           "type": "string",
-          "default": ""
+          "default": "$jj_metrics"
         },
         "pijul_modules": {
           "description": "Modules to use when Pijul is matched.\n\nThey are configured separately at the top level.",
