@@ -56,6 +56,8 @@ pub mod java;
 pub mod jj_bookmark;
 pub mod jj_change;
 pub mod jj_metrics;
+#[cfg(feature = "jj")]
+pub mod jj_operation;
 pub mod jj_status;
 pub mod jobs;
 pub mod julia;
@@ -239,6 +241,9 @@ pub struct FullConfig<'a> {
     jj_metrics: jj_metrics::JJMetricsConfig<'a>,
     #[serde(borrow)]
     jj_status: jj_status::JJStatusConfig<'a>,
+    #[serde(borrow)]
+    #[cfg(feature = "jj")]
+    jj_operation: jj_operation::JJOperationConfig<'a>,
     #[serde(borrow)]
     jobs: jobs::JobsConfig<'a>,
     #[serde(borrow)]

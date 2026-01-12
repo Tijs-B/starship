@@ -53,6 +53,8 @@ mod java;
 mod jj_bookmark;
 mod jj_change;
 mod jj_metrics;
+#[cfg(feature = "jj")]
+mod jj_operation;
 mod jj_status;
 mod jobs;
 mod julia;
@@ -182,6 +184,8 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "jj_change" => jj_change::module(context),
             "jj_metrics" => jj_metrics::module(context),
             "jj_status" => jj_status::module(context),
+            #[cfg(feature = "jj")]
+            "jj_operation" => jj_operation::module(context),
             "jobs" => jobs::module(context),
             "julia" => julia::module(context),
             "kotlin" => kotlin::module(context),
@@ -325,6 +329,7 @@ pub fn description(module: &str) -> &'static str {
         "jj_change" => "The current change in Jujutsu",
         "jj_metrics" => "The number of added and deleted lines in Jujutsu",
         "jj_status" => "Current status in Jujutsu represented via symbols",
+        "jj_operation" => "The current Jujutsu operation",
         "jobs" => "The current number of jobs running",
         "julia" => "The currently installed version of Julia",
         "kotlin" => "The currently installed version of Kotlin",

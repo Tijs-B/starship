@@ -61,6 +61,8 @@ pub const ALL_MODULES: &[&str] = &[
     "jj_change",
     "jj_metrics",
     "jj_status",
+    #[cfg(feature = "jj")]
+    "jj_operation",
     "jobs",
     "julia",
     "kotlin",
