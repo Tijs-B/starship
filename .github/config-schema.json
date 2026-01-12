@@ -903,6 +903,14 @@
         "format": "([+$added]($added_style) )([-$deleted]($deleted_style) )"
       }
     },
+    "jj_operation": {
+      "$ref": "#/$defs/JJOperationConfig",
+      "default": {
+        "format": "[$operation]($style) ",
+        "style": "blue",
+        "operation_length": 12
+      }
+    },
     "jobs": {
       "$ref": "#/$defs/JobsConfig",
       "default": {
@@ -1799,7 +1807,7 @@
         "fossil_modules": "$fossil_branch$fossil_metrics",
         "git_modules": "$git_branch$git_commit$git_state$git_metrics$git_status",
         "hg_modules": "$hg_branch$hg_state",
-        "jj_modules": "$jj_metrics",
+        "jj_modules": "$jj_operation$jj_metrics",
         "pijul_modules": "$pijul_channel"
       }
     },
@@ -4254,6 +4262,26 @@
         "format": {
           "type": "string",
           "default": "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+        }
+      },
+      "additionalProperties": false
+    },
+    "JJOperationConfig": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "default": "[$operation]($style) "
+        },
+        "style": {
+          "type": "string",
+          "default": "blue"
+        },
+        "operation_length": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0,
+          "default": 12
         }
       },
       "additionalProperties": false
@@ -6761,7 +6789,7 @@
         "jj_modules": {
           "description": "Modules to use when Jujutsu is matched.\n\nThey are configured separately at the top level.",
           "type": "string",
-          "default": "$jj_metrics"
+          "default": "$jj_operation$jj_metrics"
         },
         "pijul_modules": {
           "description": "Modules to use when Pijul is matched.\n\nThey are configured separately at the top level.",

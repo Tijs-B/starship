@@ -2571,6 +2571,19 @@ the current Jujutsu repository.
 | `only_nonzero_diffs` | `true`                                                       | Render status only for changed items. |
 | `format`             | `'([+$added]($added_style) )([-$deleted]($deleted_style) )'` | The format for the module.            |
 
+## JJ Operation
+
+The `jj_operation` module will show the operation id of the current Jujutsu
+repository.
+
+### Options
+
+| Option             | Default                   | Description                               |
+| ------------------ | ------------------------- | ----------------------------------------- |
+| `style`            | `'blue'`                  | The style for the operation id.           |
+| `operation_length` | `12`                      | The length of the displayed operation id. |
+| `format`           | `'[$operation]($style) '` | The format for the module.                |
+
 ## Jobs
 
 The `jobs` module shows the current number of jobs running.
