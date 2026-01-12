@@ -51,6 +51,8 @@ mod hg_state;
 mod hostname;
 mod java;
 #[cfg(feature = "jj")]
+mod jj_commit;
+#[cfg(feature = "jj")]
 mod jj_metrics;
 #[cfg(feature = "jj")]
 mod jj_operation;
@@ -178,6 +180,8 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "hg_state" => hg_state::module(context),
             "hostname" => hostname::module(context),
             "java" => java::module(context),
+            #[cfg(feature = "jj")]
+            "jj_commit" => jj_commit::module(context),
             #[cfg(feature = "jj")]
             "jj_metrics" => jj_metrics::module(context),
             #[cfg(feature = "jj")]
@@ -321,6 +325,7 @@ pub fn description(module: &str) -> &'static str {
         "hg_state" => "The current hg operation",
         "hostname" => "The system hostname",
         "java" => "The currently installed version of Java",
+        "jj_commit" => "The current commit and description",
         "jj_metrics" => "The currently added/deleted lines in your repo",
         "jj_operation" => "The current Jujutsu operation",
         "jobs" => "The current number of jobs running",

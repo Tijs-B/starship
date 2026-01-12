@@ -63,7 +63,7 @@ impl Default for VcsConfig<'_> {
             git_modules: "$git_branch$git_commit$git_state$git_metrics$git_status",
             hg_modules: "$hg_branch$hg_state",
             #[cfg(feature = "jj")]
-            jj_modules: "$jj_operation$jj_metrics",
+            jj_modules: "$jj_operation$jj_commit$jj_metrics",
             pijul_modules: "$pijul_channel",
         }
     }

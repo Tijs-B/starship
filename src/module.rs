@@ -58,6 +58,8 @@ pub const ALL_MODULES: &[&str] = &[
     "hostname",
     "java",
     #[cfg(feature = "jj")]
+    "jj_commit",
+    #[cfg(feature = "jj")]
     "jj_metrics",
     #[cfg(feature = "jj")]
     "jj_operation",
