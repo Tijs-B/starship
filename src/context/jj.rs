@@ -1,9 +1,10 @@
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
+use jj_lib::commit::Commit;
 use jj_lib::config::StackedConfig;
 use jj_lib::ref_name::WorkspaceNameBuf;
-use jj_lib::repo::ReadonlyRepo;
+use jj_lib::repo::{ReadonlyRepo, Repo as _};
 use jj_lib::settings::UserSettings;
 use jj_lib::workspace::Workspace;
 
@@ -37,4 +38,24 @@ pub fn init_repo(cwd: &Path) -> Option<Repo> {
         repo,
         workspace_name: workspace.workspace_name().into(),
     })
+}
+
+pub trait OrLog {
+    type Output;
+    fn or_log(self, module: &str) -> Self::Output;
+}
+
+impl<T, E: std::fmt::Display> OrLog for Result<T, E> {
+    type Output = Option<T>;
+
+    fn or_log(self, module: &str) -> Self::Output {
+        self.inspect_err(|e| log::warn!("in {module}: {e}")).ok()
+    }
+}
+
+pub fn get_working_copy(repo: &Repo, mod_name: &str) -> Option<Commit> {
+    repo.repo
+        .store()
+        .get_commit(repo.repo.view().get_wc_commit_id(&repo.workspace_name)?)
+        .or_log(mod_name)
 }
