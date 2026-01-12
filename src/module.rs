@@ -54,6 +54,7 @@ pub const ALL_MODULES: &[&str] = &[
     "hg_state",
     "hostname",
     "java",
+    "jj_commit",
     "jj_metrics",
     "jj_operation",
     "jobs",

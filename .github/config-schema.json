@@ -894,6 +894,18 @@
         "detect_folders": []
       }
     },
+    "jj_commit": {
+      "$ref": "#/$defs/JJCommitConfig",
+      "default": {
+        "change_id_length": 8,
+        "format": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) ",
+        "description_empty": "(no description)",
+        "style_prefix": "bold purple",
+        "style_rest": "bright-black",
+        "style_description": "",
+        "style_description_empty": "green"
+      }
+    },
     "jj_metrics": {
       "$ref": "#/$defs/JJMetricsConfig",
       "default": {
@@ -1807,7 +1819,7 @@
         "fossil_modules": "$fossil_branch$fossil_metrics",
         "git_modules": "$git_branch$git_commit$git_state$git_metrics$git_status",
         "hg_modules": "$hg_branch$hg_state",
-        "jj_modules": "$jj_operation$jj_metrics",
+        "jj_modules": "$jj_operation$jj_commit$jj_metrics",
         "pijul_modules": "$pijul_channel"
       }
     },
@@ -4240,6 +4252,42 @@
             "type": "string"
           },
           "default": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "JJCommitConfig": {
+      "type": "object",
+      "properties": {
+        "change_id_length": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0,
+          "default": 8
+        },
+        "format": {
+          "type": "string",
+          "default": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) "
+        },
+        "description_empty": {
+          "type": "string",
+          "default": "(no description)"
+        },
+        "style_prefix": {
+          "type": "string",
+          "default": "bold purple"
+        },
+        "style_rest": {
+          "type": "string",
+          "default": "bright-black"
+        },
+        "style_description": {
+          "type": "string",
+          "default": ""
+        },
+        "style_description_empty": {
+          "type": "string",
+          "default": "green"
         }
       },
       "additionalProperties": false
@@ -6789,7 +6837,7 @@
         "jj_modules": {
           "description": "Modules to use when Jujutsu is matched.\n\nThey are configured separately at the top level.",
           "type": "string",
-          "default": "$jj_operation$jj_metrics"
+          "default": "$jj_operation$jj_commit$jj_metrics"
         },
         "pijul_modules": {
           "description": "Modules to use when Pijul is matched.\n\nThey are configured separately at the top level.",

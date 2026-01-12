@@ -2557,6 +2557,23 @@ By default the module will be shown if any of the following conditions are met:
 symbol = '🌟 '
 ```
 
+## JJ Commit
+
+The `jj_commit` module shows the change id and description of the current
+Jujutsu repository.
+
+### Options
+
+| Option                    | Default              | Description                                              |
+| ------------------------- | -------------------- | -------------------------------------------------------- |
+| `change_id_length`        | `8`                  | The length of the displayed change id.                   |
+| `description_empty`       | `'(no description)'` | The text to display if the current description is empty. |
+| `style_prefix`            | `'bold purple'`      | Style for the short prefix of the current change id.     |
+| `style_rest`              | `'bright-black'`     | Style for the rest of the current change id.             |
+| `style_description`       | `''`                 | Style for the description.                               |
+| `style_description_empty` | `'green'`            | Style for the description, if it is empty.               |
+| `format`                  | `'[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) '` | The format for the module. |
+
 ## JJ Metrics
 
 The `jj_metrics` module will show the number of added and deleted lines in
