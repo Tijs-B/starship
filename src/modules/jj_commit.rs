@@ -2,6 +2,7 @@ use jj_lib::backend::ChangeId;
 use jj_lib::id_prefix::{IdPrefixContext, IdPrefixIndex};
 use jj_lib::index::IndexResult;
 use jj_lib::repo::ReadonlyRepo;
+use pollster::block_on;
 
 use crate::config::ModuleConfig as _;
 use crate::configs::jj_commit::JJCommitConfig;
@@ -36,6 +37,12 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
         ""
     };
 
+    let empty = if block_on(wc.is_empty(repo.repo.as_ref())).ok()? {
+        config.empty_string
+    } else {
+        ""
+    };
+
     let parsed = StringFormatter::new(config.format).and_then(|formatter| {
         formatter
             .map_style(|variable| match variable {
@@ -43,6 +50,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
                 "style_rest" => Some(Ok(config.style_rest)),
                 "style_description" => Some(Ok(desc_style)),
                 "style_conflicted" => Some(Ok(config.style_conflicted)),
+                "style_empty" => Some(Ok(config.style_empty)),
                 _ => None,
             })
             .map(|variable| match variable {
@@ -50,6 +58,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
                 "rest" => Some(Ok(rest.as_str())),
                 "description" => Some(Ok(desc)),
                 "conflicted" => Some(Ok(conflicted)),
+                "empty" => Some(Ok(empty)),
                 _ => None,
             })
             .parse(None, Some(context))
@@ -72,7 +81,7 @@ fn shortest(
     id: &ChangeId,
     total_len: usize,
 ) -> IndexResult<(String, String)> {
-    let prefix_len = index.shortest_change_prefix_len(repo, id)?;
+    let prefix_len = block_on(index.shortest_change_prefix_len(repo, id))?;
     let mut hex = id.reverse_hex();
     hex.truncate(total_len);
     let rest = hex.split_off(prefix_len);
