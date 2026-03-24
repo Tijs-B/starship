@@ -898,12 +898,14 @@
       "$ref": "#/$defs/JJCommitConfig",
       "default": {
         "change_id_length": 8,
-        "format": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) ",
+        "format": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description)[$conflicted]($style_conflicted) ",
         "description_empty": "(no description)",
+        "conflicted_string": " (conflicted)",
         "style_prefix": "bold purple",
         "style_rest": "bright-black",
         "style_description": "",
-        "style_description_empty": "green"
+        "style_description_empty": "green",
+        "style_conflicted": "red"
       }
     },
     "jj_metrics": {
@@ -4267,11 +4269,15 @@
         },
         "format": {
           "type": "string",
-          "default": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) "
+          "default": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description)[$conflicted]($style_conflicted) "
         },
         "description_empty": {
           "type": "string",
           "default": "(no description)"
+        },
+        "conflicted_string": {
+          "type": "string",
+          "default": " (conflicted)"
         },
         "style_prefix": {
           "type": "string",
@@ -4288,6 +4294,10 @@
         "style_description_empty": {
           "type": "string",
           "default": "green"
+        },
+        "style_conflicted": {
+          "type": "string",
+          "default": "red"
         }
       },
       "additionalProperties": false

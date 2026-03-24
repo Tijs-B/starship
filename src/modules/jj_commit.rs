@@ -30,18 +30,26 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
         |d| (d.trim(), config.style_description),
     );
 
+    let conflicted = if wc.has_conflict() {
+        config.conflicted_string
+    } else {
+        ""
+    };
+
     let parsed = StringFormatter::new(config.format).and_then(|formatter| {
         formatter
             .map_style(|variable| match variable {
                 "style_prefix" => Some(Ok(config.style_prefix)),
                 "style_rest" => Some(Ok(config.style_rest)),
                 "style_description" => Some(Ok(desc_style)),
+                "style_conflicted" => Some(Ok(config.style_conflicted)),
                 _ => None,
             })
             .map(|variable| match variable {
                 "prefix" => Some(Ok(prefix.as_str())),
                 "rest" => Some(Ok(rest.as_str())),
                 "description" => Some(Ok(desc)),
+                "conflicted" => Some(Ok(conflicted)),
                 _ => None,
             })
             .parse(None, Some(context))
