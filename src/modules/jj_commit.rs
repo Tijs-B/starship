@@ -36,6 +36,12 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
         ""
     };
 
+    let empty = if wc.is_empty(repo.repo.as_ref()).ok()? {
+        config.empty_string
+    } else {
+        ""
+    };
+
     let parsed = StringFormatter::new(config.format).and_then(|formatter| {
         formatter
             .map_style(|variable| match variable {
@@ -43,6 +49,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
                 "style_rest" => Some(Ok(config.style_rest)),
                 "style_description" => Some(Ok(desc_style)),
                 "style_conflicted" => Some(Ok(config.style_conflicted)),
+                "style_empty" => Some(Ok(config.style_empty)),
                 _ => None,
             })
             .map(|variable| match variable {
@@ -50,6 +57,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
                 "rest" => Some(Ok(rest.as_str())),
                 "description" => Some(Ok(desc)),
                 "conflicted" => Some(Ok(conflicted)),
+                "empty" => Some(Ok(empty)),
                 _ => None,
             })
             .parse(None, Some(context))
