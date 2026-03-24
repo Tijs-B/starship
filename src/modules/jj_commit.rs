@@ -51,6 +51,9 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
         ""
     };
 
+    let mut op_id = repo.repo.op_id().to_string();
+    op_id.truncate(4);
+
     let parsed = StringFormatter::new(config.format).and_then(|formatter| {
         formatter
             .map_style(|variable| match variable {
@@ -67,6 +70,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
                 "description" => Some(Ok(&desc)),
                 "conflicted" => Some(Ok(conflicted)),
                 "empty" => Some(Ok(empty)),
+                "operation" => Some(Ok(&op_id)),
                 _ => None,
             })
             .parse(None, Some(context))
