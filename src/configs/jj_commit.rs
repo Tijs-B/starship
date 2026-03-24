@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 pub struct JJCommitConfig<'a> {
     pub change_id_length: usize,
     pub format: &'a str,
+    pub description_length: usize,
     pub description_empty: &'a str,
     pub conflicted_string: &'a str,
     pub empty_string: &'a str,
@@ -26,6 +27,7 @@ impl Default for JJCommitConfig<'_> {
         Self {
             change_id_length: 8,
             format: "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description)[$conflicted]($style_conflicted)[$empty]($style_empty) ",
+            description_length: 256,
             description_empty: "(no description)",
             conflicted_string: " (conflicted)",
             empty_string: " (empty)",

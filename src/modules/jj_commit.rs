@@ -26,8 +26,16 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
 
     let desc = wc.description().lines().next();
     let (desc, desc_style) = desc.filter(|d| !d.trim().is_empty()).map_or(
-        (config.description_empty, config.style_description_empty),
-        |d| (d.trim(), config.style_description),
+        (
+            config.description_empty.to_string(),
+            config.style_description_empty,
+        ),
+        |d| {
+            (
+                truncate_description(d.trim(), config.description_length),
+                config.style_description,
+            )
+        },
     );
 
     let conflicted = if wc.has_conflict() {
@@ -55,7 +63,7 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
             .map(|variable| match variable {
                 "prefix" => Some(Ok(prefix.as_str())),
                 "rest" => Some(Ok(rest.as_str())),
-                "description" => Some(Ok(desc)),
+                "description" => Some(Ok(&desc)),
                 "conflicted" => Some(Ok(conflicted)),
                 "empty" => Some(Ok(empty)),
                 _ => None,
@@ -72,6 +80,17 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
     });
 
     Some(module)
+}
+
+fn truncate_description(desc: &str, length: usize) -> String {
+    if desc.len() > length {
+        let truncate_length = length - 1;
+        let mut truncated = desc[..truncate_length].to_string();
+        truncated.push('…');
+        truncated
+    } else {
+        desc.to_string()
+    }
 }
 
 fn shortest(
