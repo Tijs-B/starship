@@ -4502,7 +4502,7 @@
         },
         "format": {
           "type": "string",
-          "default": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description)[$conflicted]($style_conflicted) "
+          "default": "[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description)[$conflicted]($style_conflicted)[$empty]($style_empty) "
         },
         "description_length": {
           "type": "integer",
@@ -4517,6 +4517,10 @@
         "conflicted_string": {
           "type": "string",
           "default": " (conflicted)"
+        },
+        "empty_string": {
+          "type": "string",
+          "default": " (empty)"
         },
         "style_prefix": {
           "type": "string",
@@ -4537,10 +4541,6 @@
         "style_conflicted": {
           "type": "string",
           "default": "red"
-        },
-        "empty_string": {
-          "type": "string",
-          "default": " (empty)"
         },
         "style_empty": {
           "type": "string",

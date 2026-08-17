@@ -2571,15 +2571,38 @@ Jujutsu repository.
 
 ### Options
 
-| Option                    | Default              | Description                                              |
-| ------------------------- | -------------------- | -------------------------------------------------------- |
-| `change_id_length`        | `8`                  | The length of the displayed change id.                   |
-| `description_empty`       | `'(no description)'` | The text to display if the current description is empty. |
-| `style_prefix`            | `'bold purple'`      | Style for the short prefix of the current change id.     |
-| `style_rest`              | `'bright-black'`     | Style for the rest of the current change id.             |
-| `style_description`       | `''`                 | Style for the description.                               |
-| `style_description_empty` | `'green'`            | Style for the description, if it is empty.               |
-| `format`                  | `'[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) '` | The format for the module. |
+| Option                    | Default                                                                                                                              | Description                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| `change_id_length`        | `8`                                                                                                                                  | The length of the displayed change id.                       |
+| `format`                  | `'[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description)[$conflicted]($style_conflicted)[$empty]($style_empty) '` | The format for the module.                                    |
+| `description_length`      | `256`                                                                                                                                | The maximum length of the displayed description.             |
+| `description_empty`       | `'(no description)'`                                                                                                                 | The text to display if the current description is empty.     |
+| `conflicted_string`       | `' (conflicted)'`                                                                                                                    | The text to display if the current commit is conflicted.     |
+| `empty_string`            | `' (empty)'`                                                                                                                         | The text to display if the current commit is empty.          |
+| `style_prefix`            | `'bold purple'`                                                                                                                       | Style for the short prefix of the current change id.          |
+| `style_rest`              | `'bright-black'`                                                                                                                      | Style for the rest of the current change id.                  |
+| `style_description`       | `''`                                                                                                                                 | Style for the description.                                    |
+| `style_description_empty` | `'green'`                                                                                                                            | Style for the description, if it is empty.                    |
+| `style_conflicted`        | `'red'`                                                                                                                              | Style for the conflicted marker.                              |
+| `style_empty`             | `'yellow'`                                                                                                                           | Style for the empty marker.                                   |
+
+### Variables
+
+| Variable            | Example    | Description                                          |
+| -------------------- | ---------- | ----------------------------------------------------- |
+| prefix               | `x`        | The shortest unique prefix of the current change id    |
+| rest                 | `yz123abc` | The remainder of the current change id                 |
+| description           | `wip`      | The first line of the current commit description       |
+| conflicted            | ` (conflicted)` | Present when the working-copy commit has a conflict |
+| empty                 | ` (empty)` | Present when the working-copy commit is empty          |
+| operation             |            | The current operation id, truncated to 4 characters     |
+| style_prefix\*        |            | Mirrors the value of option `style_prefix`              |
+| style_rest\*          |            | Mirrors the value of option `style_rest`                |
+| style_description\*   |            | Mirrors the value of option `style_description` or `style_description_empty` |
+| style_conflicted\*    |            | Mirrors the value of option `style_conflicted`          |
+| style_empty\*         |            | Mirrors the value of option `style_empty`               |
+
+*: This variable can only be used as a part of a style string
 
 ## JJ Metrics
 
@@ -2595,6 +2618,17 @@ the current Jujutsu repository.
 | `only_nonzero_diffs` | `true`                                                       | Render status only for changed items. |
 | `format`             | `'([+$added]($added_style) )([-$deleted]($deleted_style) )'` | The format for the module.            |
 
+### Variables
+
+| Variable      | Example | Description                                  |
+| -------------- | ------- | --------------------------------------------- |
+| added          | `1`     | The current number of added lines             |
+| deleted        | `2`     | The current number of deleted lines            |
+| added_style\*   |         | Mirrors the value of option `added_style`      |
+| deleted_style\* |         | Mirrors the value of option `deleted_style`     |
+
+*: This variable can only be used as a part of a style string
+
 ## JJ Operation
 
 The `jj_operation` module will show the operation id of the current Jujutsu
@@ -2607,6 +2641,15 @@ repository.
 | `style`            | `'blue'`                  | The style for the operation id.           |
 | `operation_length` | `12`                      | The length of the displayed operation id. |
 | `format`           | `'[$operation]($style) '` | The format for the module.                |
+
+### Variables
+
+| Variable  | Example        | Description                                    |
+| --------- | --------------- | ------------------------------------------------ |
+| operation | `b22af2e363be` | The id of the current Jujutsu operation, truncated |
+| style\*   |                 | Mirrors the value of option `style`               |
+
+*: This variable can only be used as a part of a style string
 
 ## Jobs
 
@@ -5090,10 +5133,11 @@ The module will be shown only if a configured VCS is currently in use.
 
 | Option           | Default                                                     | Description                                           |
 | ---------------- | ----------------------------------------------------------- | ----------------------------------------------------- |
-| `order`          | `["git", "hg", "pijul", "fossil"]`                          | The order in which to search VCSes.                   |
+| `order`          | `["jj", "git", "hg", "pijul", "fossil"]`                    | The order in which to search VCSes.                   |
 | `fossil_modules` | `"$fossil_branch$fossil_metrics"`                           | Modules to show when a Fossil repository is found.    |
 | `git_modules`    | `"$git_branch$git_commit$git_state$git_metrics$git_status"` | Modules to show when a Git repository is found.       |
 | `hg_modules`     | `"$hg_branch$hg_state"`                                     | Modules to show when a Mercurial repository is found. |
+| `jj_modules`     | `"$jj_operation$jj_commit$jj_metrics"`                      | Modules to show when a Jujutsu repository is found. Only available with the `jj` feature. |
 | `pijul_modules`  | `"$pijul_channel"`                                          | Modules to show when a Pijul repository is found.     |
 | `disabled`       | `false`                                                     | Disables the `vcs` module.                            |
 
