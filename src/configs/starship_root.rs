@@ -53,6 +53,7 @@ pub const PROMPT_ORDER: &[&str] = &[
     "vcsh",
     "fossil_branch",
     "fossil_metrics",
+    "jj_workspace",
     "jj_operation",
     "jj_commit",
     "jj_lib_metrics",

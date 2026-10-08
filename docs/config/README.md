@@ -2850,6 +2850,32 @@ repository.
 | `operation_length` | `12`                      | The length of the displayed operation id. |
 | `format`           | `'[$operation]($style) '` | The format for the module.                |
 
+## JJ Workspace
+
+The `jj_workspace` module shows the name of the current Jujutsu
+[workspace](https://docs.jj-vcs.dev/latest/working-copy/#workspaces). By default
+it is hidden in the `default` workspace, so it only appears in additional
+workspaces. It reads the repository in-process through `jj-lib` and is only
+available with the `jj` feature.
+
+### Options
+
+| Option         | Default                    | Description                                       |
+| -------------- | -------------------------- | ------------------------------------------------- |
+| `format`       | `'[$workspace]($style) '`  | The format for the module.                        |
+| `style`        | `'bold cyan'`              | The style for the workspace name.                 |
+| `show_default` | `false`                    | Also show the module in the `default` workspace.  |
+| `disabled`     | `false`                    | Disables the `jj_workspace` module.               |
+
+### Variables
+
+| Variable  | Example   | Description                          |
+| --------- | --------- | ------------------------------------ |
+| workspace | `feature` | The name of the current workspace    |
+| style\*   |           | Mirrors the value of option `style`  |
+
+*: This variable can only be used as a part of a style string
+
 ## Jobs
 
 The `jobs` module shows the current number of jobs running.
