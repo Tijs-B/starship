@@ -59,6 +59,8 @@ mod jj_lib_metrics;
 mod jj_metrics;
 #[cfg(feature = "jj")]
 mod jj_operation;
+#[cfg(feature = "jj")]
+mod jj_stale;
 mod jj_status;
 #[cfg(feature = "jj")]
 mod jj_workspace;
@@ -198,6 +200,8 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "jj_operation" => jj_operation::module(context),
             #[cfg(feature = "jj")]
             "jj_workspace" => jj_workspace::module(context),
+            #[cfg(feature = "jj")]
+            "jj_stale" => jj_stale::module(context),
             "jobs" => jobs::module(context),
             "julia" => julia::module(context),
             "kotlin" => kotlin::module(context),
@@ -345,6 +349,7 @@ pub fn description(module: &str) -> &'static str {
         "jj_status" => "Current status in Jujutsu represented via symbols",
         "jj_operation" => "The current Jujutsu operation",
         "jj_workspace" => "The current Jujutsu workspace, if not the default one",
+        "jj_stale" => "Whether the current Jujutsu working copy is stale",
         "jobs" => "The current number of jobs running",
         "julia" => "The currently installed version of Julia",
         "kotlin" => "The currently installed version of Kotlin",

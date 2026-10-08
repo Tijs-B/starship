@@ -2850,6 +2850,36 @@ repository.
 | `operation_length` | `12`                      | The length of the displayed operation id. |
 | `format`           | `'[$operation]($style) '` | The format for the module.                |
 
+## JJ Stale
+
+The `jj_stale` module shows a marker when the working copy of the current
+[Jujutsu workspace is stale](https://docs.jj-vcs.dev/latest/working-copy/#stale-working-copy),
+meaning another workspace or command rewrote its commit and it needs
+`jj workspace update-stale`. Nothing is rendered when the working copy is up to
+date.
+
+The check is read-only: it compares the working copy's last operation and tree
+with the repository head, and never takes the working-copy lock. The module is
+only available with the `jj` feature.
+
+### Options
+
+| Option     | Default                | Description                            |
+| ---------- | ---------------------- | -------------------------------------- |
+| `format`   | `'[$symbol]($style) '` | The format for the module.             |
+| `symbol`   | `'stale'`              | The symbol used in the `$symbol` variable. |
+| `style`    | `'bold red'`           | The style for the module.              |
+| `disabled` | `false`                | Disables the `jj_stale` module.        |
+
+### Variables
+
+| Variable | Example | Description                         |
+| -------- | ------- | ----------------------------------- |
+| symbol   | `stale` | Mirrors the value of option `symbol` |
+| style\*  |         | Mirrors the value of option `style`  |
+
+*: This variable can only be used as a part of a style string
+
 ## JJ Workspace
 
 The `jj_workspace` module shows the name of the current Jujutsu

@@ -62,6 +62,8 @@ pub mod jj_lib_metrics;
 pub mod jj_metrics;
 #[cfg(feature = "jj")]
 pub mod jj_operation;
+#[cfg(feature = "jj")]
+pub mod jj_stale;
 pub mod jj_status;
 #[cfg(feature = "jj")]
 pub mod jj_workspace;
@@ -259,6 +261,9 @@ pub struct FullConfig<'a> {
     #[serde(borrow)]
     #[cfg(feature = "jj")]
     jj_workspace: jj_workspace::JJWorkspaceConfig<'a>,
+    #[serde(borrow)]
+    #[cfg(feature = "jj")]
+    jj_stale: jj_stale::JJStaleConfig<'a>,
     #[serde(borrow)]
     jobs: jobs::JobsConfig<'a>,
     #[serde(borrow)]
