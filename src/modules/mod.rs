@@ -54,6 +54,8 @@ mod jj_bookmark;
 mod jj_change;
 #[cfg(feature = "jj")]
 mod jj_commit;
+#[cfg(feature = "jj")]
+mod jj_lib_metrics;
 mod jj_metrics;
 #[cfg(feature = "jj")]
 mod jj_operation;
@@ -186,6 +188,8 @@ pub fn handle<'a>(module: &str, context: &'a Context) -> Option<Module<'a>> {
             "jj_change" => jj_change::module(context),
             #[cfg(feature = "jj")]
             "jj_commit" => jj_commit::module(context),
+            #[cfg(feature = "jj")]
+            "jj_lib_metrics" => jj_lib_metrics::module(context),
             "jj_metrics" => jj_metrics::module(context),
             "jj_status" => jj_status::module(context),
             #[cfg(feature = "jj")]
@@ -332,6 +336,7 @@ pub fn description(module: &str) -> &'static str {
         "jj_bookmark" => "The closest ancestor bookmark in Jujutsu",
         "jj_change" => "The current change in Jujutsu",
         "jj_commit" => "The current commit and description",
+        "jj_lib_metrics" => "The number of added and deleted lines in Jujutsu, read via jj-lib",
         "jj_metrics" => "The number of added and deleted lines in Jujutsu",
         "jj_status" => "Current status in Jujutsu represented via symbols",
         "jj_operation" => "The current Jujutsu operation",

@@ -57,6 +57,8 @@ pub mod jj_bookmark;
 pub mod jj_change;
 #[cfg(feature = "jj")]
 pub mod jj_commit;
+#[cfg(feature = "jj")]
+pub mod jj_lib_metrics;
 pub mod jj_metrics;
 #[cfg(feature = "jj")]
 pub mod jj_operation;
@@ -242,6 +244,9 @@ pub struct FullConfig<'a> {
     #[serde(borrow)]
     #[cfg(feature = "jj")]
     jj_commit: jj_commit::JJCommitConfig<'a>,
+    #[serde(borrow)]
+    #[cfg(feature = "jj")]
+    jj_lib_metrics: jj_lib_metrics::JJLibMetricsConfig<'a>,
     #[serde(borrow)]
     jj_metrics: jj_metrics::JJMetricsConfig<'a>,
     #[serde(borrow)]

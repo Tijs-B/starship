@@ -2684,6 +2684,33 @@ Jujutsu repository.
 | `style_description_empty` | `'green'`            | Style for the description, if it is empty.               |
 | `format`                  | `'[$prefix]($style_prefix)[$rest]($style_rest) [$description]($style_description) '` | The format for the module. |
 
+## JJ Lib Metrics
+
+The `jj_lib_metrics` module shows the number of added and deleted lines in the
+current Jujutsu repository. It reads the repository in-process through `jj-lib`
+instead of running the `jj` command, unlike [`jj_metrics`](#jj-metrics). It is
+only available with the `jj` feature.
+
+### Options
+
+| Option               | Default                                                      | Description                           |
+| -------------------- | ------------------------------------------------------------ | ------------------------------------- |
+| `added_style`        | `'bold green'`                                               | The style for the added count.        |
+| `deleted_style`      | `'bold red'`                                                 | The style for the deleted count.      |
+| `only_nonzero_diffs` | `true`                                                       | Render status only for changed items. |
+| `format`             | `'([+$added]($added_style) )([-$deleted]($deleted_style) )'` | The format for the module.            |
+
+### Variables
+
+| Variable        | Example | Description                               |
+| --------------- | ------- | ----------------------------------------- |
+| added           | `1`     | The current number of added lines         |
+| deleted         | `2`     | The current number of deleted lines       |
+| added_style\*   |         | Mirrors the value of option `added_style`   |
+| deleted_style\* |         | Mirrors the value of option `deleted_style` |
+
+*: This variable can only be used as a part of a style string
+
 ## JJ Metrics
 
 The `jj_metrics` module shows the number of added and deleted lines in the current [Jujutsu](https://docs.jj-vcs.dev/) repository.
